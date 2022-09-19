@@ -1,0 +1,107 @@
+<div [@routerTransition]>
+
+  <div class="kt-subheader kt-grid__item">
+
+    <div class="kt-subheader__main">
+      <h3 class="kt-subheader__title">
+        <span>Ledger Mapping</span>
+      </h3>
+    </div>
+  </div>
+
+
+  <div class="kt-content">
+    <div class="kt-portlet kt-portlet--mobile">
+      <div class="kt-portlet__body">
+        <form class="kt-form" autocomplete="off">
+          <div class="row col-md-6">
+            <div class="col-md-6"> 
+              <label for="ParentID">{{l("Account ID")}}</label>
+              <div class="input-group">
+                <input disabled type="text" id="ParentID" class="form-control form-control-sm"
+                  [(ngModel)]="accountSubLedger.accountID" name="parentID">
+                <div class="input-group-append">
+                  <button class="btn btn-primary btn-sm blue" (click)="openSelectAccountModal()" type="button"><i
+                      class="fa fa-search"></i>
+                    {{l("Pick")}}</button>
+                </div>
+                <div class="input-group-prepend">
+                  <button class="btn btn-danger btn-sm btn-icon" type="button" (click)="setAccountIdNull(false)"><i
+                      class="fa fa-times"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="">{{l("Account Desc")}}</label>
+              <input type="text" id="ParentName" class="form-control form-control-sm" [(ngModel)]="LinkedAccountName"
+                disabled name="LinkedAccountName">
+            </div>            
+          </div>
+          <div class="row col-md-6">
+            <div class="col-md-6">
+              <label for="ParentSubID" >{{l("Sub Account ID")}}</label>
+              <div class="input-group">
+                <input disabled type="text" id="ParentSubID" class="form-control form-control-sm"
+                  [(ngModel)]="accountSubLedger.subAccID" name="ParentSubID">
+                <div class="input-group-append">
+                  <button [disabled]="!this.accountSubLedger.accountID" class="btn btn-primary btn-sm blue"
+                    (click)="openSelectSubLedgerAccountModal()" type="button"><i class="fa fa-search"></i>
+                    {{l("Pick")}}</button>
+                </div>
+                <div class="input-group-prepend">
+                  <button [disabled]="!this.accountSubLedger.accountID" class="btn btn-danger btn-sm btn-icon"
+                    type="button" (click)="setAccountSubledgerIdNull(false)"><i class="fa fa-times"></i></button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="" >{{l("Sub Account Desc")}}</label>
+              <input type="text" id="ParentSubName" class="form-control form-control-sm"
+                [(ngModel)]="LinkedSubAccountName" disabled name="LinkedSubAccountName">
+            </div>
+          </div>
+            <div class="row col-md-6">             
+                <div class="col-md-6">
+                  <label for="SL_Type">{{l("SL Type")}}</label>
+                  <input type="text" id="AccountSubLedger_Contact"
+                    class="form-control form-control-sm"
+                    [(ngModel)]="accountSubLedger.slDesc" maxlength="50"
+                    name="Contact" readonly />
+                </div>             
+            </div>        
+          <div class="row col-md-6 ml-1 mt-3">
+            <button class="btn btn-primary blue btn-sm  pull-right" [disabled]="" (click)="getAllAcc()" type="button"><i
+                class="fa fa-search"></i> {{l("Filter")}}</button>
+          </div>
+          <div class="row com-md-12" style="margin-top:10px;">
+            <br>
+            <ag-grid-angular style="width: 100%; height: 200px;" class="ag-theme-balham" 
+              [rowData]="rowData"
+              [columnDefs]="columnDefs" [animateRows]="true" [suppressDragLeaveHidesColumns]="true"
+              [rowSelection]="rowSelection" 
+              [singleClickEdit]="true" 
+              (gridReady)="onGridReady($event)"
+              (cellClicked)="onCellClicked($event)"
+              > 
+            </ag-grid-angular>
+          </div> 
+
+          <div class="modal-footer">
+           <!-- <div class=" col-md-2 pull-right" > -->
+              <button type="button" class="btn btn-success green"  (click)="insertSubAcc()" ><span>{{l("Process")}}</span></button>
+           <!-- </div> -->
+          </div>
+
+          
+        </form>
+      </div>
+    </div>
+  </div>
+  <app-account-subledger-lookup #accountSubledgerLookup (modalSave)="getNewSubledgerId()">
+
+  </app-account-subledger-lookup>
+  <financeLookupTableModal #FinanceLookupTableModal></financeLookupTableModal>
+
+  <financeLookupTableModal #ParentaccountModal (modalSave)="getNewParentAccountId()"></financeLookupTableModal>
+
+</div>
